@@ -1,4 +1,4 @@
-const ngrok = require("ngrok");
+const upload = require("./config/multerconfig");
 const express = require("express");
 const app = express();
 const userModel = require("./models/user");
@@ -6,9 +6,11 @@ const postModel = require("./models/post");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
 app.get("/profile", isloggedin, async (req, res) => {
@@ -16,6 +18,15 @@ app.get("/profile", isloggedin, async (req, res) => {
     .findOne({ email: req.user.email })
     .populate("posts");
   res.render("profile", { user });
+});
+app.get("/profile/upload", isloggedin, (req, res) => {
+  res.render("profileupload");
+});
+app.post("/upload", isloggedin, upload.single("image"), async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+  user.profilepic = req.file.filename;
+  await user.save();
+  res.redirect("/profile");
 });
 app.get("/like/:id", isloggedin, async (req, res) => {
   let post = await postModel.findOne({ _id: req.params.id }).populate("user");
@@ -50,7 +61,16 @@ app.post("/update/:id", isloggedin, async (req, res) => {
   res.redirect("/profile");
 });
 app.get("/", (req, res) => {
-  res.render("index");
+  const token = req.cookies.token;
+  if (token) {
+    try {
+      const userData = jwt.verify(token, "secret"); // Verify the token
+      if (userData) return res.redirect("/profile");
+    } catch (err) {
+      console.error("Invalid token:", err.message); // Log any token errors
+    }
+  }
+  res.render("index"); // Render the index page if not logged in
 });
 app.get("/login", (req, res) => {
   res.render("login");
@@ -65,8 +85,13 @@ app.post("/login", async (req, res) => {
   if (!user) return res.status(500).send("Incorrect email or password");
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
-      const token = jwt.sign({ email: email, userid: user._id }, "secret");
-      res.cookie("token", token);
+      const token = jwt.sign({ email: email, userid: user._id }, "secret", {
+        expiresIn: "7d",
+      });
+      res.cookie("token", token, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
       res.status(200).redirect("/profile");
     } else {
       res.redirect("/login");
@@ -99,11 +124,4 @@ function isloggedin(req, res, next) {
     next();
   }
 }
-app.listen(3000, async () => {
-  try {
-    const url = await ngrok.connect(3000);
-    console.log(url);
-  } catch (error) {
-    console.log("Error starting tunnel");
-  }
-});
+app.listen(3000);
