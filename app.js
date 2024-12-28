@@ -1,3 +1,4 @@
+const ngrok = require("ngrok");
 const express = require("express");
 const app = express();
 const userModel = require("./models/user");
@@ -30,11 +31,22 @@ app.post("/post", isloggedin, async (req, res) => {
   let { content } = req.body;
   let user = await userModel.findOne({ email: req.user.email });
   let post = await postModel.create({
-    user: user._d,
+    user: user._id,
     content: content,
   });
   user.posts.push(post._id);
   await user.save();
+  res.redirect("/profile");
+});
+app.get("/edit/:id", isloggedin, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id });
+  res.render("edit", { post });
+});
+app.post("/update/:id", isloggedin, async (req, res) => {
+  let post = await postModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { content: req.body.content }
+  );
   res.redirect("/profile");
 });
 app.get("/", (req, res) => {
@@ -87,4 +99,11 @@ function isloggedin(req, res, next) {
     next();
   }
 }
-app.listen(3000);
+app.listen(3000, async () => {
+  try {
+    const url = await ngrok.connect(3000);
+    console.log(url);
+  } catch (error) {
+    console.log("Error starting tunnel");
+  }
+});
