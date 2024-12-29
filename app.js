@@ -1,3 +1,4 @@
+require('dotenv').config();
 const upload = require("./config/multerconfig");
 const express = require("express");
 const app = express();

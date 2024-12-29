@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-mongoose.connect('mongodb+srv://ritiksingh7369:ritik123@cluster0.afyxl.mongodb.net/project');
+const dbPassword = process.env.DB_PASSWORD;
+mongoose.connect(`mongodb+srv://ritiksingh7369:${dbPassword}@cluster0.afyxl.mongodb.net/project`);
 
 const userSchema = mongoose.Schema({
     username : String,
