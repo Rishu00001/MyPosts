@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="" />
     <style>
       .btns a:hover {
         text-decoration: underline;
@@ -14,17 +15,41 @@
         transform: scale(1.02);
         transition: all 0.3s ease-in-out;
       }
+      /* Styling for the logo */
+      #logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #38bdf8;
+        /* Dark background to make it stand out */
+        padding: 8px 16px;
+        border-radius: 8px;
+        letter-spacing: 1px;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      /* Log Out Button Styling */
+      .logout-btn {
+        background-color: #ef4444; /* Red background */
+        padding: 10px 20px; /* Adds spacing inside the button */
+        border-radius: 8px; /* Rounded corners */
+        font-weight: 600; /* Bold text */
+        color: white; /* White text */
+        transition: background-color 0.3s ease; /* Smooth transition for background */
+        display: inline-flex; /* Ensures it aligns with other content */
+        align-items: center; /* Vertically center the button text */
+        justify-content: center; /* Horizontally center the button text */
+      }
+
+      .logout-btn:hover {
+        background-color: #dc2626; /* Darker red on hover */
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
     <div class="container mx-auto p-8">
-      <div class="flex justify-end mb-6">
-        <a
-          href="/logout"
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition duration-300"
-        >
-          Log Out
-        </a>
+      <div class="flex justify-between items-center mb-6">
+        <div id="logo">MyPosts</div>
+        <a href="/logout" class="logout-btn"> Log Out </a>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
         <div

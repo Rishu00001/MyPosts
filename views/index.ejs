@@ -3,74 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Account</title>
+    <title>MyPosts</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="stylesheets/indexstyle.css">
   </head>
-  <body class="bg-gray-900 font-sans text-white">
-    <div class="w-full min-h-screen p-6 flex items-center justify-center">
-      <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-lg p-8 space-y-6">
-        <h1 class="text-3xl font-semibold text-center text-white mb-6">Create Account</h1>
+  <body>
+    <div class="container">
+      <!-- Greeting Section -->
+      <div class="greeting-section">
+        <h1>Welcome to MyPosts</h1>
+        <p>Join MyPosts today and share your moments with the world. It's easy to get started, just create an account.</p>
+        <a href="#signup" class="btn-submit">Get Started</a>
+      </div>
+
+      <!-- Signup Section -->
+      <div class="signup-section" id="signup">
+        <h2>Create Account</h2>
         <form action="/register" method="post" class="space-y-6">
-          <div>
-            <input
-              class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="text"
-              name="name"
-              placeholder="Name"
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="number"
-              name="age"
-              placeholder="Age"
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold cursor-pointer transition duration-300 ease-in-out"
-              type="submit"
-              value="Sign Up"
-            />
-          </div>
+          <input class="form-input" type="text" name="name" placeholder="Full Name" required />
+          <input class="form-input" type="text" name="username" placeholder="Username" required />
+          <input class="form-input" type="number" name="age" placeholder="Age" required />
+          <input class="form-input" type="email" name="email" placeholder="Email" required />
+          <input class="form-input" type="password" name="password" placeholder="Password" required />
+          <input class="btn-submit" type="submit" value="Sign Up" />
         </form>
         <p class="text-center text-gray-400 mt-4">
-          Already have an account? <a href="/login" class="text-blue-400 hover:underline">Login</a>
+          Already have an account? <a href="/login" class="login-link">Login</a>
         </p>
       </div>
     </div>
